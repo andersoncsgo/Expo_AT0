@@ -1,39 +1,82 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from 'react';
+import { StyleSheet, Text, View, Image, Linking } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; 
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+export default function Layout() {
+  const openLinkedIn = () => {
+    Linking.openURL('https://www.linkedin.com/in/anderson-lucas-lucena/'); 
+  };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+  const openGitHub = () => {
+    Linking.openURL('https://github.com/andersoncsgo'); 
+  };
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={styles.container}>
+      <Image
+        source={{ uri: 'https://cdn.discordapp.com/attachments/934175513637974086/1351584620688310272/Imagem_do_WhatsApp_de_2025-02-07_as_19.51.20_782f3ff3.jpg?ex=67dae8c4&is=67d99744&hm=bb54dafabaf146b94dd6e87380e9d36292d097d8944156e8f64936bd305dbc38&' }} // Substitua pela URL da sua imagem
+        style={styles.profileImage}
+      />
+      <Text style={styles.name}>Anderson Lucas</Text>
+      <Text style={styles.profession}>Desenvolvedor de Software</Text>
+      <Text style={styles.email}>seuemail@exemplo.com</Text>
+      <Text style={styles.phone}>‪+55 (11) 99999-9999‬</Text>
+
+      <View style={styles.socialIcons}>
+        <Ionicons
+          name="logo-linkedin"
+          size={32}
+          color="#0077B5" 
+          onPress={openLinkedIn}
+        />
+        <Ionicons
+          name="logo-github"
+          size={32}
+          color="#333"
+          onPress={openGitHub}
+          style={{ marginLeft: 20 }}
+        />
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0', 
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 75, 
+    marginBottom: 20,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333', // Cor do texto escura
+    marginBottom: 5,
+  },
+  profession: {
+    fontSize: 16,
+    color: '#666', // Cor do texto cinza
+    marginBottom: 10,
+  },
+  email: {
+    fontSize: 14,
+    color: '#444',
+    marginBottom: 5,
+  },
+  phone: {
+    fontSize: 14,
+    color: '#444',
+  },
+  socialIcons: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+});
